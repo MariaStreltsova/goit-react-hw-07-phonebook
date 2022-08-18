@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { FilterContainer, FilterInput } from './Filter.styled';
 
 import { getFilter } from '../../redux/contactsSelectors';
-import { filterSlice } from '../../redux/myContacts/contactsSlice';
+import { filterSlice } from '../../redux/myContacts/filterSlice';
 const filterId = nanoid();
 
 export const Filter = () => {

@@ -1,40 +1,40 @@
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
 import { ContactsTitle, List } from './ContactsList.styled';
-import { getVisibleContacts } from '../../redux/contactsSelectors';
-import { ContactsItem, DeleteButton, Text } from './ContactsItem.styled';
-import { itemsSlice } from '../../redux/myContacts/contactsSlice';
-
+import { ContactItem } from './ContactItem';
+import { useFetchContactsQuery } from '../../redux/contactsApi';
+import { useSelector } from 'react-redux';
+import { getFilter } from '../../redux/contactsSelectors';
 export const ContactList = () => {
-  const items = useSelector(getVisibleContacts);
-  const dispatch = useDispatch();
+  const getVisibleContacts = (value, contacts) => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(value.toLowerCase())
+    );
+  };
+  const { data: contacts } = useFetchContactsQuery();
+  const value = useSelector(getFilter);
+  let visibleContacts = null;
+  if (contacts) {
+    visibleContacts = getVisibleContacts(value, contacts);
+  }
   return (
-    <div>
+    <>
       <ContactsTitle>Contacts list</ContactsTitle>
       <List>
-        {items.map(({ id, name, number }) => {
-          return (
-            <ContactsItem key={id}>
-              <Text>Name: {name}</Text>
-              <Text>Number: {number}</Text>
-              <DeleteButton
-                type="button"
-                id={id}
-                onClick={evt =>
-                  dispatch(itemsSlice.actions.deleteContact(evt.target.id))
-                }
-              >
-                Delete
-              </DeleteButton>
-            </ContactsItem>
-          );
-        })}
+        {visibleContacts &&
+          visibleContacts.map(({ name, phone, id }) => (
+            <ContactItem key={id} id={id} name={name} phone={phone} />
+          ))}
       </List>
-    </div>
+    </>
   );
 };
 
 ContactList.propTypes = {
-  contactsInfo: PropTypes.arrayOf(PropTypes.shape),
-  deleteContact: PropTypes.func,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
 };
