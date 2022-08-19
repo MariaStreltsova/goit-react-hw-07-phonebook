@@ -23,3 +23,9 @@ export const FilterInput = styled.input`
     border: ${p => p.theme.borders.normal} ${p => p.theme.colors.accent};
   }
 `;
+export const Text = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${p => p.theme.space[3]}px;
+`;

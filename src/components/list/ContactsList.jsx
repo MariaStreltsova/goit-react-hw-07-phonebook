@@ -4,6 +4,7 @@ import { ContactItem } from './ContactItem';
 import { useFetchContactsQuery } from '../../redux/contactsApi';
 import { useSelector } from 'react-redux';
 import { getFilter } from '../../redux/contactsSelectors';
+
 export const ContactList = () => {
   const getVisibleContacts = (value, contacts) => {
     return contacts.filter(contact =>

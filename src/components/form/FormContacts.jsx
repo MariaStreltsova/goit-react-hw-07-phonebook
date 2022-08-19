@@ -3,18 +3,22 @@ import {
   useCreateContactMutation,
   useFetchContactsQuery,
 } from 'redux/contactsApi';
-
+import { Spinner } from 'components/spinner/Spiner';
 import { Box, Input, InputName, SubmitButton } from './FormContacts.styled';
+import { TiTick } from 'react-icons/ti';
 
 export const ContactsReviewForm = () => {
-  const [createContact] = useCreateContactMutation();
+  const [createContact, { isLoading: isUpdating, isSuccess }] =
+    useCreateContactMutation();
   const { data: contacts } = useFetchContactsQuery();
+
   const handleSubmit = ({ name, phone }, { resetForm }) => {
     const contactsNames = contacts.map(contact => contact.name);
     if (contactsNames.includes(name)) {
       alert(` ${name} is already in contacts.`);
       return;
     }
+
     try {
       createContact({ name, phone });
     } catch (err) {
@@ -50,7 +54,11 @@ export const ContactsReviewForm = () => {
             placeholder="enter new contacts' phone number"
           />
         </InputName>
-        <SubmitButton type="submit">Add contacts</SubmitButton>
+        <SubmitButton type="submit" disabled={isUpdating}>
+          {isUpdating && <Spinner />}
+          {isSuccess && <TiTick size={17} />}
+          <p>Add Contact</p>
+        </SubmitButton>
       </Box>
     </Formik>
   );
