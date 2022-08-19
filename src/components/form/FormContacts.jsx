@@ -55,7 +55,7 @@ export const ContactsReviewForm = () => {
           />
         </InputName>
         <SubmitButton type="submit" disabled={isUpdating}>
-          {isUpdating && <Spinner />}
+          {isUpdating && <Spinner size={17} />}
           {isSuccess && <TiTick size={17} />}
           <p>Add Contact</p>
         </SubmitButton>
