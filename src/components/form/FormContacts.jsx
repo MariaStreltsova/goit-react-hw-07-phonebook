@@ -28,7 +28,7 @@ export const ContactsReviewForm = () => {
   };
 
   return (
-    <Formik initialValues={{ name: '', number: '' }} onSubmit={handleSubmit}>
+    <Formik initialValues={{ name: '', phone: '' }} onSubmit={handleSubmit}>
       <Box>
         <InputName>
           name
@@ -47,7 +47,7 @@ export const ContactsReviewForm = () => {
           <Input
             autoComplete="off"
             type="tel"
-            name="number"
+            name="phone"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
