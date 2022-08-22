@@ -5,6 +5,8 @@ import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { theme } from './components/theme';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -14,5 +16,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App />
       </Provider>
     </ThemeProvider>
+    <ToastContainer />
   </React.StrictMode>
 );

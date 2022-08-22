@@ -1,11 +1,12 @@
 import { Formik } from 'formik';
+import { toast } from 'react-toastify';
 import {
   useCreateContactMutation,
   useFetchContactsQuery,
 } from 'redux/contactsApi';
 import { Spinner } from 'components/spinner/Spiner';
 import { Box, Input, InputName, SubmitButton } from './FormContacts.styled';
-import { TiTick } from 'react-icons/ti';
+// import { TiTick } from 'react-icons/ti';
 
 export const ContactsReviewForm = () => {
   const [createContact, { isLoading: isUpdating, isSuccess }] =
@@ -15,18 +16,36 @@ export const ContactsReviewForm = () => {
   const handleSubmit = ({ name, phone }, { resetForm }) => {
     const contactsNames = contacts.map(contact => contact.name);
     if (contactsNames.includes(name)) {
-      alert(` ${name} is already in contacts.`);
+      toast.error(` ${name} is already in contacts.`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
-
+    if (isSuccess) {
+      toast.success('A new contact has been added!');
+    }
     try {
       createContact({ name, phone });
     } catch (err) {
-      alert(`please, try again`);
+      toast.error('please, try again', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
     resetForm();
   };
-
+  const notify = () => toast.success('A new contact has been added!');
   return (
     <Formik initialValues={{ name: '', phone: '' }} onSubmit={handleSubmit}>
       <Box>
@@ -54,9 +73,8 @@ export const ContactsReviewForm = () => {
             placeholder="enter new contacts' phone number"
           />
         </InputName>
-        <SubmitButton type="submit" disabled={isUpdating}>
+        <SubmitButton type="submit" disabled={isUpdating && notify()}>
           {isUpdating && <Spinner size={17} />}
-          {isSuccess && <TiTick size={17} />}
           <p>Add Contact</p>
         </SubmitButton>
       </Box>
