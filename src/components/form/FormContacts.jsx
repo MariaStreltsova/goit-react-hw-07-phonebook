@@ -6,7 +6,6 @@ import {
 } from 'redux/contactsApi';
 import { Spinner } from 'components/spinner/Spiner';
 import { Box, Input, InputName, SubmitButton } from './FormContacts.styled';
-// import { TiTick } from 'react-icons/ti';
 
 export const ContactsReviewForm = () => {
   const [createContact, { isLoading: isUpdating, isSuccess }] =

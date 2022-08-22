@@ -18,7 +18,9 @@ export const ContactsItem = styled.li`
 export const DeleteButton = styled.button`
   display: flex;
   align-items: center;
+  width: ${p => p.theme.space[6]}px;
   padding: ${p => p.theme.space[2]}px;
+  justify-content: center;
   color: ${p => p.theme.colors.black};
   background-color: ${p => p.theme.colors.white};
   border: ${p => p.theme.borders.normal} ${p => p.theme.colors.red};
