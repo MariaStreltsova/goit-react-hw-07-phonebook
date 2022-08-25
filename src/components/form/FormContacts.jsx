@@ -8,8 +8,7 @@ import { Spinner } from 'components/spinner/Spiner';
 import { Box, Input, InputName, SubmitButton } from './FormContacts.styled';
 
 export const ContactsReviewForm = () => {
-  const [createContact, { isLoading: isUpdating, isSuccess }] =
-    useCreateContactMutation();
+  const [createContact, { isLoading: isUpdating }] = useCreateContactMutation();
   const { data: contacts } = useFetchContactsQuery();
 
   const handleSubmit = ({ name, phone }, { resetForm }) => {
@@ -24,27 +23,13 @@ export const ContactsReviewForm = () => {
         draggable: true,
         progress: undefined,
       });
-      return;
-    }
-    if (isSuccess) {
-      toast.success('A new contact has been added!');
-    }
-    try {
+    } else {
       createContact({ name, phone });
-    } catch (err) {
-      toast.error('please, try again', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.success('A new contact has been added!');
+      resetForm();
     }
-    resetForm();
   };
-  const notify = () => toast.success('A new contact has been added!');
+
   return (
     <Formik initialValues={{ name: '', phone: '' }} onSubmit={handleSubmit}>
       <Box>
@@ -72,8 +57,9 @@ export const ContactsReviewForm = () => {
             placeholder="enter new contacts' phone number"
           />
         </InputName>
-        <SubmitButton type="submit" disabled={isUpdating && notify()}>
+        <SubmitButton type="submit" disabled={isUpdating}>
           {isUpdating && <Spinner size={17} />}
+
           <p>Add Contact</p>
         </SubmitButton>
       </Box>
